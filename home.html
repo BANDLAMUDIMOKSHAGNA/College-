@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>KITS Guntur - SGPA & CGPA Calculator</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f6f8;
+            color: #222;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        /* COLLEGE HEADER */
+
+        .college-header {
+            text-align: center;
+            padding: 20px;
+            border-bottom: 2px solid #1f4e79;
+            margin-bottom: 25px;
+        }
+
+        .college-header h2 {
+            color: #1f4e79;
+            font-size: 26px;
+            margin-bottom: 8px;
+        }
+
+        .college-header h3 {
+            color: #555;
+            font-size: 17px;
+            margin-bottom: 6px;
+        }
+
+        .college-header p {
+            color: #777;
+            font-size: 14px;
+        }
+
+        .calculator-title {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .calculator-title h1 {
+            color: #1f4e79;
+            margin-bottom: 8px;
+        }
+
+        .calculator-title p {
+            color: #666;
+        }
+
+
+        /* STUDENT DETAILS */
+
+        .student-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+
+        .student-section h2 {
+            color: #1f4e79;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .student-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .student-field label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #1f4e79;
+        }
+
+
+        /* TABLE */
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th {
+            background: #1f4e79;
+            color: white;
+            padding: 12px;
+        }
+
+        td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        td input {
+            min-width: 80px;
+        }
+
+        .total,
+        .grade,
+        .point {
+            font-weight: bold;
+        }
+
+
+        /* BUTTONS */
+
+        button {
+            padding: 11px 18px;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 15px;
+            margin: 5px;
+        }
+
+        .add-btn {
+            background: #28a745;
+            color: white;
+        }
+
+        .calculate-btn {
+            background: #1f4e79;
+            color: white;
+        }
+
+        .reset-btn {
+            background: #dc3545;
+            color: white;
+        }
+
+        button:hover {
+            opacity: 0.85;
+        }
+
+        .buttons {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+
+        /* RESULT */
+
+        .result {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .result-box {
+            background: #f1f5f9;
+            padding: 20px 35px;
+            border-radius: 10px;
+            text-align: center;
+            min-width: 180px;
+        }
+
+        .result-box h3 {
+            color: #555;
+            margin-bottom: 8px;
+        }
+
+        .result-box p {
+            font-size: 28px;
+            font-weight: bold;
+            color: #1f4e79;
+        }
+
+
+        /* CGPA */
+
+        .cgpa-section {
+            margin-top: 25px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .cgpa-section h2 {
+            margin-bottom: 15px;
+            color: #1f4e79;
+        }
+
+        .previous {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .previous div {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .previous label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+
+        /* FOOTER */
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 1px solid #ddd;
+            color: #777;
+            font-size: 13px;
+        }
+
+
+        /* MOBILE */
+
+        @media (max-width: 800px) {
+
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            .student-grid {
+                grid-template-columns: 1fr;
+            }
+
+            table {
+                font-size: 12px;
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+
+            th,
+            td {
+                padding: 6px;
+            }
+
+            .college-header h2 {
+                font-size: 21px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <!-- COLLEGE DETAILS -->
+
+    <div class="college-header">
+
+        <h2>
+            KKR & KSR INSTITUTE OF TECHNOLOGY AND SCIENCES
+        </h2>
+
+        <h3>
+            KITS, Guntur
+        </h3>
+
+        <p>
+            Andhra Pradesh, India
+        </p>
+
+        <p>
+            Student Academic Calculator
+        </p>
+
+    </div>
+
+
+    <!-- CALCULATOR TITLE -->
+
+    <div class="calculator-title">
+
+        <h1>
+            SGPA & CGPA Calculator
+        </h1>
+
+        <p>
+            Calculate your semester SGPA and overall CGPA
+        </p>
+
+    </div>
+
+
+    <!-- STUDENT DETAILS -->
+
+    <div class="student-section">
+
+        <h2>Student Details</h2>
+
+        <div class="student-grid">
+
+
+            <div class="student-field">
+
+                <label>Student Name</label>
+
+                <input
+                    type="text"
+                    id="studentName"
+                    placeholder="Enter your name"
+                >
+
+            </div>
+
+
+            <div class="student-field">
+
+                <label>Roll Number</label>
+
+                <input
+                    type="text"
+                    id="rollNumber"
+                    placeholder="Enter roll number"
+                >
+
+            </div>
+
+
+            <div class="student-field">
+
+                <label>Branch</label>
+
+                <select id="branch">
+
+                    <option value="">Select Branch</option>
+
+                    <option>CSE</option>
+                    <option>CSE - AI & ML</option>
+                    <option>ECE</option>
+                    <option>EEE</option>
+                    <option>ME</option>
+                    <option>Civil</option>
+
+                </select>
+
+            </div>
+
+
+            <div class="student-field">
+
+                <label>Year</label>
+
+                <select id="year">
+
+                    <option value="">Select Year</option>
+
+                    <option>1st Year</option>
+                    <option>2nd Year</option>
+                    <option>3rd Year</option>
+                    <option>4th Year</option>
+
+                </select>
+
+            </div>
+
+
+            <div class="student-field">
+
+                <label>Semester</label>
+
+                <select id="semester">
+
+                    <option value="">Select Semester</option>
+
+                    <option>1-1</option>
+                    <option>1-2</option>
+                    <option>2-1</option>
+                    <option>2-2</option>
+                    <option>3-1</option>
+                    <option>3-2</option>
+                    <option>4-1</option>
+                    <option>4-2</option>
+
+                </select>
+
+            </div>
+
+
+            <div class="student-field">
+
+                <label>Academic Year</label>
+
+                <input
+                    type="text"
+                    placeholder="2026-27"
+                >
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- SUBJECT MARKS -->
+
+    <table id="marksTable">
+
+        <thead>
+
+            <tr>
+
+                <th>Subject</th>
+
+                <th>Credits</th>
+
+                <th>Internal</th>
+
+                <th>External</th>
+
+                <th>Total</th>
+
+                <th>Grade</th>
+
+                <th>Grade Point</th>
+
+            </tr>
+
+        </thead>
+
+
+        <tbody id="subjectBody">
+
+
+            <!-- SUBJECT 1 -->
+
+            <tr>
+
+                <td>
+                    <input
+                        type="text"
+                        placeholder="Chemistry"
+                    >
+                </td>
+
+                <td>
+                    <input
+                        type="number"
+                        class="credits"
+                        min="0"
+                    >
+                </td>
+
+                <td>
+                    <input
+                        type="number"
+                        class="internal"
+                        min="0"
+                        max="40"
+                    >
+                </td>
+
+                <td>
+                    <input
+                        type="number"
+                        class="external"
+                        min="0"
+                        max="60"
+                    >
+                </td>
+
+                <td class="total">-</td>
+
+                <td class="grade">-</td>
+
+                <td class="point">-</td>
+
+            </tr>
+
+
+            <!-- SUBJECT 2 -->
+
+            <tr>
+
+                <td>
+                    <input
+                        type="text"
+                        placeholder="Data Structures"
+                    >
+                </td>
+
+                <td>
+                    <input
+                        type="number"
+                        class="credits"
+                        min="0"
+                    >
+                </td>
+
+                <td>
+                    <input
+                        type="number"
+                        class="internal"
+                        min="0"
+                        max="40"
+                    >
+                </td>
+
+                <td>
+                    <input
+                        type="number"
+                        class="external"
+                        min="0"
+                        max="60"
+                    >
+                </td>
+
+                <td class="total">-</td>
+
+                <td class="grade">-</td>
+
+                <td class="point">-</td>
+
+            </tr>
+
+
+            <!-- SUBJECT 3 -->
+
+            <tr>
+
+                <td>
+                    <input
+                        type="text"
+                        placeholder="Programming"
+                    >
+                </td>
+
+                <td>
+                    <input
+                        type="number"
+                        class="credits"
+                        min="0"
+                    >
+                </td>
+
+                <td>
+                    <input
+                        type="number"
+                        class="internal"
+                        min="0"
+                        max="40"
+                    >
+                </td>
+
+                <td>
+                    <input
+                        type="number"
+                        class="external"
+                        min="0"
+                        max="60"
+                    >
+                </td>
+
+                <td class="total">-</td>
+
+                <td class="grade">-</td>
+
+                <td class="point">-</td>
+
+            </tr>
+
+
+        </tbody>
+
+    </table>
+
+
+    <!-- BUTTONS -->
+
+    <div class="buttons">
+
+        <button
+            class="add-btn"
+            onclick="addSubject()"
+        >
+            + Add Subject
+        </button>
+
+
+        <button
+            class="calculate-btn"
+            onclick="calculateSGPA()"
+        >
+            Calculate SGPA
+        </button>
+
+
+        <button
+            class="reset-btn"
+            onclick="resetCalculator()"
+        >
+            Reset
+        </button>
+
+    </div>
+
+
+    <!-- SGPA RESULTS -->
+
+    <div class="result">
+
+
+        <div class="result-box">
+
+            <h3>Total Credits</h3>
+
+            <p id="totalCredits">
+                0
+            </p>
+
+        </div>
+
+
+        <div class="result-box">
+
+            <h3>Total Marks</h3>
+
+            <p id="totalMarks">
+                0
+            </p>
+
+        </div>
+
+
+        <div class="result-box">
+
+            <h3>SGPA</h3>
+
+            <p id="sgpa">
+                0.00
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- CGPA SECTION -->
+
+    <div class="cgpa-section">
+
+        <h2>
+            CGPA Calculator
+        </h2>
+
+
+        <div class="previous">
+
+
+            <div>
+
+                <label>
+                    Previous CGPA
+                </label>
+
+                <input
+                    type="number"
+                    id="previousCGPA"
+                    placeholder="Example: 8.25"
+                    step="0.01"
+                >
+
+            </div>
+
+
+            <div>
+
+                <label>
+                    Previous Semester Credits
+                </label>
+
+                <input
+                    type="number"
+                    id="previousCredits"
+                    placeholder="Example: 20"
+                >
+
+            </div>
+
+
+        </div>
+
+
+        <br>
+
+
+        <button
+            class="calculate-btn"
+            onclick="calculateCGPA()"
+        >
+            Calculate CGPA
+        </button>
+
+
+        <div
+            class="result-box"
+            style="margin:20px auto 0;"
+        >
+
+            <h3>
+                Final CGPA
+            </h3>
+
+            <p id="cgpa">
+                0.00
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- FOOTER -->
+
+    <div class="footer">
+
+        <p>
+            KKR & KSR Institute of Technology and Sciences, Guntur
+        </p>
+
+        <p>
+            SGPA & CGPA Calculator | Student Utility
+        </p>
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+
+    // -----------------------------------------
+    // GRADE CALCULATION
+    // -----------------------------------------
+
+    function getGrade(total) {
+
+        if (total >= 90) {
+
+            return ["O", 10];
+
+        }
+
+        else if (total >= 80) {
+
+            return ["A+", 9];
+
+        }
+
+        else if (total >= 70) {
+
+            return ["A", 8];
+
+        }
+
+        else if (total >= 60) {
+
+            return ["B+", 7];
+
+        }
+
+        else if (total >= 50) {
+
+            return ["B", 6];
+
+        }
+
+        else if (total >= 40) {
+
+            return ["C", 5];
+
+        }
+
+        else {
+
+            return ["F", 0];
+
+        }
+
+    }
+
+
+    // -----------------------------------------
+    // CALCULATE SGPA
+    // -----------------------------------------
+
+    function calculateSGPA() {
+
+        let rows =
+            document.querySelectorAll("#subjectBody tr");
+
+
+        let totalCredits = 0;
+
+        let totalMarks = 0;
+
+        let creditPoints = 0;
+
+
+        rows.forEach(row => {
+
+
+            let credits =
+                Number(
+                    row.querySelector(".credits").value
+                ) || 0;
+
+
+            let internal =
+                Number(
+                    row.querySelector(".internal").value
+                ) || 0;
+
+
+            let external =
+                Number(
+                    row.querySelector(".external").value
+                ) || 0;
+
+
+            let total =
+                internal + external;
+
+
+            let gradeData =
+                getGrade(total);
+
+
+            let grade =
+                gradeData[0];
+
+
+            let gradePoint =
+                gradeData[1];
+
+
+            row.querySelector(".total").textContent =
+                total;
+
+
+            row.querySelector(".grade").textContent =
+                grade;
+
+
+            row.querySelector(".point").textContent =
+                gradePoint;
+
+
+            totalCredits += credits;
+
+            totalMarks += total;
+
+            creditPoints +=
+                credits * gradePoint;
+
+
+        });
+
+
+        let sgpa = 0;
+
+
+        if (totalCredits > 0) {
+
+            sgpa =
+                creditPoints / totalCredits;
+
+        }
+
+
+        document.getElementById("totalCredits")
+            .textContent = totalCredits;
+
+
+        document.getElementById("totalMarks")
+            .textContent = totalMarks;
+
+
+        document.getElementById("sgpa")
+            .textContent = sgpa.toFixed(2);
+
+    }
+
+
+    // -----------------------------------------
+    // ADD SUBJECT
+    // -----------------------------------------
+
+    function addSubject() {
+
+
+        let tbody =
+            document.getElementById("subjectBody");
+
+
+        let row =
+            document.createElement("tr");
+
+
+        row.innerHTML = `
+
+            <td>
+                <input
+                    type="text"
+                    placeholder="Subject"
+                >
+            </td>
+
+            <td>
+                <input
+                    type="number"
+                    class="credits"
+                    min="0"
+                >
+            </td>
+
+            <td>
+                <input
+                    type="number"
+                    class="internal"
+                    min="0"
+                    max="40"
+                >
+            </td>
+
+            <td>
+                <input
+                    type="number"
+                    class="external"
+                    min="0"
+                    max="60"
+                >
+            </td>
+
+            <td class="total">-</td>
+
+            <td class="grade">-</td>
+
+            <td class="point">-</td>
+
+        `;
+
+
+        tbody.appendChild(row);
+
+    }
+
+
+    // -----------------------------------------
+    // CALCULATE CGPA
+    // -----------------------------------------
+
+    function calculateCGPA() {
+
+
+        let previousCGPA =
+            Number(
+                document.getElementById("previousCGPA").value
+            );
+
+
+        let previousCredits =
+            Number(
+                document.getElementById("previousCredits").value
+            );
+
+
+        let sgpa =
+            Number(
+                document.getElementById("sgpa").textContent
+            );
+
+
+        let currentCredits =
+            Number(
+                document.getElementById("totalCredits").textContent
+            );
+
+
+        if (
+            previousCGPA <= 0 ||
+            previousCredits <= 0 ||
+            currentCredits <= 0
+        ) {
+
+            alert(
+                "Please enter previous CGPA, previous credits and calculate SGPA first."
+            );
+
+            return;
+
+        }
+
+
+        let cgpa =
+            (
+                (previousCGPA * previousCredits) +
+                (sgpa * currentCredits)
+            )
+            /
+            (
+                previousCredits + currentCredits
+            );
+
+
+        document.getElementById("cgpa")
+            .textContent = cgpa.toFixed(2);
+
+    }
+
+
+    // -----------------------------------------
+    // RESET
+    // -----------------------------------------
+
+    function resetCalculator() {
+
+        location.reload();
+
+    }
+
+
+</script>
+
+
+</body>
+
+</html>
